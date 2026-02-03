@@ -44,7 +44,7 @@ export function HomePage() {
                         <td className={styles.td} data-label="Volume (24h)">
                             1BI
                         </td>
-                        <td className={styles.td} data-label="Últimas 24h">
+                        <td className={styles.tdProfit} data-label="Últimas 24h">
                             <span>1.20</span>
                         </td>
                     </tr>
