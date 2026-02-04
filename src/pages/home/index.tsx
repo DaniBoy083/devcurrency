@@ -16,6 +16,9 @@ interface CoinProps {
     vwap24Hr: string;
     volumeUsd24Hr: string;
     explorer: string;
+    formatedPrice?: string;
+    formatedMarketCap?: string;
+    formatedVolume?: string;
 }
 
 interface DataProps {
@@ -40,16 +43,23 @@ export function HomePage() {
                 style: 'currency',
                 currency: 'USD',
             });
+            const priceCompact = Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                notation: 'compact',
+            });
             const formatedCoins = coinsData.map((coin) => {
                 const formated = {
                     ...coin,
-                    formatedPrice: price.format(Number(coin.pricdeUsd))
+                    formatedPrice: price.format(Number(coin.pricdeUsd)),
+                    formatedMarketCap: priceCompact.format(Number(coin.marketCapUsd)),
+                    formatedVolume: priceCompact.format(Number(coin.volumeUsd24Hr))
                 }
 
                 return formated;
             })
 
-            console.log(formatedCoins);
+            setCoins(formatedCoins);
         })
     }
 
@@ -91,27 +101,34 @@ export function HomePage() {
                     </tr>
                 </thead>
                 <tbody id='tbody'>
-                    <tr className={styles.tr}>
-                        <td className={styles.tdLabel} data-label="Moeda">
-                            <div className={styles.name}>
-                                <Link to="/detail/bitcoin">
-                                    <span>Bitcoin</span> | BTC
-                                </Link>
-                            </div>
-                        </td>
-                        <td className={styles.td} data-label="Valor de mercado">
-                            1BI
-                        </td>
-                        <td className={styles.td} data-label="Preço">
-                            1BI
-                        </td>
-                        <td className={styles.td} data-label="Volume (24h)">
-                            1BI
-                        </td>
-                        <td className={styles.tdProfit} data-label="Últimas 24h">
-                            <span>1.20</span>
-                        </td>
-                    </tr>
+                    {coins.length > 0 && coins.map((coin) => (
+                        <tr className={styles.tr} key={coin.id}>
+                            <td className={styles.tdLabel} data-label="Moeda">
+                                <div className={styles.name}>
+                                    <img
+                                        className={styles.coinIcon}
+                                        alt='Logo Cripto'
+                                        src={`https://assets.coincap.io/assets/icons/${coin.symbol.toLowerCase()}@2x.png`}
+                                    />
+                                    <Link to={`/detail/${coin.id}`}>
+                                        <span>{coin.name}</span> | {coin.symbol}
+                                    </Link>
+                                </div>
+                            </td>
+                            <td className={styles.td} data-label="Valor de mercado">
+                                {coin.formatedMarketCap}
+                            </td>
+                            <td className={styles.td} data-label="Preço">
+                                {coin.formatedPrice}
+                            </td>
+                            <td className={styles.td} data-label="Volume (24h)">
+                                {coin.formatedVolume}
+                            </td>
+                            <td className={Number(coin.changePercent24Hr) > 0 ? styles.tdProfit : styles.tdLoss} data-label="Últimas 24h">
+                                <span>{Number(coin.changePercent24Hr).toFixed(2)}</span>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             <button className={styles.buttonMore} onClick={handleGetMore}>
