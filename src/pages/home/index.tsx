@@ -7,7 +7,7 @@ interface CoinProps {
     id: string;
     name: string;
     symbol: string;
-    pricdeUsd: string;
+    priceUsd: string;
     marketCapUsd: string;
     rank: string;
     changePercent24Hr: string;
@@ -29,13 +29,14 @@ export function HomePage() {
 
     const [input, setInput] = useState('');
     const [coins, setCoins] = useState<CoinProps[]>([]);
+    const [offset, setOffset] = useState(0);
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [offset]);
 
     async function getData() {
-        fetch("https://rest.coincap.io/v3/assets?limit=10&offset=0&apiKey=04a07e84652a8216b58b05be9a2b603a7201ec7db445a28ce65f7c1796503d36")
+        fetch(`https://rest.coincap.io/v3/assets?limit=10&offset=${offset}&apiKey=04a07e84652a8216b58b05be9a2b603a7201ec7db445a28ce65f7c1796503d36`)
         .then((response) => response.json())
         .then((data: DataProps) => {
             const coinsData = data.data;
@@ -51,7 +52,7 @@ export function HomePage() {
             const formatedCoins = coinsData.map((coin) => {
                 const formated = {
                     ...coin,
-                    formatedPrice: price.format(Number(coin.pricdeUsd)),
+                    formatedPrice: price.format(Number(coin.priceUsd)),
                     formatedMarketCap: priceCompact.format(Number(coin.marketCapUsd)),
                     formatedVolume: priceCompact.format(Number(coin.volumeUsd24Hr))
                 }
@@ -59,7 +60,8 @@ export function HomePage() {
                 return formated;
             })
 
-            setCoins(formatedCoins);
+            const listCoins = [...coins, ...formatedCoins];
+            setCoins(listCoins);
         })
     }
 
@@ -74,7 +76,12 @@ export function HomePage() {
 
     function handleGetMore() {
         // Lógica para carregar mais moedas
-        console.log('Carregar mais moedas...');
+            if (offset === 0) {
+                setOffset(10);
+                return
+            }
+
+            setOffset(offset + 10);
     }
 
     return (

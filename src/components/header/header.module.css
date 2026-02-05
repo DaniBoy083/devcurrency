@@ -5,3 +5,20 @@
     height: 120px;
     max-width: 1080px;
 }
+
+.container img {
+    height: 48px;
+    width: auto;
+}
+
+@media (max-width: 600px) {
+    .container {
+        justify-content: center;
+        padding: 0 16px;
+        height: 80px;
+    }
+
+    .container img {
+        height: 40px;
+    }
+}
