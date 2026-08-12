@@ -113,6 +113,15 @@ export function DetailPage() {
                     <strong>Mudança 24h:</strong><span className={Number(coin.changePercent24Hr) > 0 ? styles.profit : styles.loss}>{Number(coin.changePercent24Hr).toFixed(2)}%</span>
                 </a>
             </section>
+
+            <a
+                href="https://moneydirector.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.moneyDirectorButton}
+            >
+                conhecer <span className={styles.moneyDirectorGreen}>$ Money</span><span className={styles.moneyDirectorWhite}>Director</span>
+            </a>
         </div>
     )
 }

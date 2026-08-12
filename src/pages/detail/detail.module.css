@@ -20,6 +20,33 @@
     gap: 14px
 }
 
+.moneyDirectorButton {
+    background: #000;
+    color: #fff;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 0 1px #1f1f1f;
+}
+
+.moneyDirectorButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px #12f98a;
+}
+
+.moneyDirectorGreen {
+    color: #12f98a;
+}
+
+.moneyDirectorWhite {
+    color: #fff;
+}
+
 .logo {
     width: 60px;
     height: 60px;

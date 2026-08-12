@@ -169,6 +169,16 @@ export function HomePage() {
                     ))}
                 </tbody>
             </table>
+
+            <a
+                href="https://moneydirector.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.moneyDirectorButton}
+            >
+                conhecer <span className={styles.moneyDirectorGreen}>$ Money</span><span className={styles.moneyDirectorWhite}>Director</span>
+            </a>
+
             {/* Botão para carregar mais moedas (paginação) */}
             <button className={styles.buttonMore} onClick={handleGetMore}>
                 Carregar mais
